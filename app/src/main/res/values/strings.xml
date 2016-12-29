@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Flist</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <string name="login_activity_anonymous_sign_in">John Doe</string>
+    <string name="login_activity_skip">skip</string>
 </resources>
