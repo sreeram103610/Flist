@@ -9,4 +9,6 @@
     <string name="login_activity_skip">skip</string>
     <string name="login_activity_check_internet">Check Internet Connection</string>
     <string name="login_activity_play_service_update_required">Play services has to be updated to login using google</string>
+    <string name="signed_in_as_john_doe">Signed in as John Doe</string>
+    <string name="sign_in_failed">Sign in failed. Please Try Again</string>
 </resources>
