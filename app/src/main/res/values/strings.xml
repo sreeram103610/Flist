@@ -11,4 +11,7 @@
     <string name="login_activity_play_service_update_required">Play services has to be updated to login using google</string>
     <string name="signed_in_as_john_doe">Signed in as John Doe</string>
     <string name="sign_in_failed">Sign in failed. Please Try Again</string>
+    <string name="main_activity_list">LIST</string>
+    <string name="main_activity_feeds">FEEDS</string>
+    <string name="main_activity_flist">Flist</string>
 </resources>
