@@ -14,4 +14,5 @@
     <string name="main_activity_list">LIST</string>
     <string name="main_activity_feeds">FEEDS</string>
     <string name="main_activity_flist">Flist</string>
+    <string name="ok_button">OK</string>
 </resources>

@@ -1,10 +1,13 @@
 package com.maadlabs.flist;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.View;
 
+import com.maadlabs.flist.fragment.AddListItemDialogFragment;
 import com.maadlabs.flist.model.MyFragmentAdapter;
 
 public class MainActivity extends FragmentActivity {
@@ -12,6 +15,8 @@ public class MainActivity extends FragmentActivity {
     MyFragmentAdapter mMyFragmentAdapter;
     ViewPager mViewPager;
     TabLayout mTabLayout;
+    FloatingActionButton mActionButton;
+    AddListItemDialogFragment mAddListItemDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,13 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
+
+        mActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAddListItemDialogFragment.show(getSupportFragmentManager(), AddListItemDialogFragment.TAG);
+            }
+        });
     }
 
     private void initViews() {
@@ -52,10 +64,12 @@ public class MainActivity extends FragmentActivity {
     private void initReferences() {
         mTabLayout = (TabLayout) findViewById(R.id.tablayout);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mActionButton = (FloatingActionButton) findViewById(R.id.floating_button);
     }
 
     private void initData() {
         mMyFragmentAdapter = new MyFragmentAdapter(getSupportFragmentManager());
+        mAddListItemDialogFragment = new AddListItemDialogFragment();
     }
 
 }
