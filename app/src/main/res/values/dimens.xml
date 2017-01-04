@@ -12,4 +12,6 @@
     <dimen name="floating_button_margin_bottom">24dp</dimen>
     <dimen name="default_field_margin">10dp</dimen>
     <dimen name="default_dialog_margin">24dp</dimen>
+    <dimen name="add_list_item_dialog_width">300dp</dimen>
+    <dimen name="add_list_item_dialog_height">500dp</dimen>
 </resources>
