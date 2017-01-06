@@ -1,7 +1,9 @@
 package com.maadlabs.flist.fragment;
 
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,8 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.maadlabs.flist.R;
+import com.maadlabs.flist.db.ListInfoContract;
+import com.maadlabs.flist.db.MyHelper;
 
 
 public class AddListItemDialogFragment extends DialogFragment implements View.OnClickListener{
@@ -26,6 +31,8 @@ public class AddListItemDialogFragment extends DialogFragment implements View.On
     private TextInputEditText mItemNameEditText;
     private TextInputEditText mItemSubCategoryEditText;
     private TextInputEditText mQuantityEditText;
+    private MyHelper mDatabaseHelper;
+    private SQLiteDatabase mDatabase;
 
     public AddListItemDialogFragment() {
 
@@ -45,7 +52,13 @@ public class AddListItemDialogFragment extends DialogFragment implements View.On
         initReferences();
         initListeners();
         initViews();
+        initData();
         return mView;
+    }
+
+    private void initData() {
+
+        mDatabaseHelper = new MyHelper(getContext());
     }
 
     private void initViews() {
@@ -76,6 +89,7 @@ public class AddListItemDialogFragment extends DialogFragment implements View.On
         switch (id) {
             case R.id.ok_button:
                 validateFields();
+                addListItem();
                 break;
 
             case R.id.cancel_button:
@@ -84,8 +98,45 @@ public class AddListItemDialogFragment extends DialogFragment implements View.On
         }
     }
 
+    private void addListItem() {
+
+        addItemToDb();
+        addItemToList();
+    }
+
+    private void addItemToList() {
+
+    }
+
+    private boolean addItemToDb() {
+
+        if (mDatabase == null) {
+            mDatabase = mDatabaseHelper.getWritableDatabase();
+        }
+
+        ContentValues values = new ContentValues();
+        values.put(ListInfoContract.ListInfoEntry.ITEM_NAME, mItemNameEditText.getText().toString());
+        values.put(ListInfoContract.ListInfoEntry.ITEM_QUANTITY, mQuantityEditText.getText().toString());
+        values.put(ListInfoContract.ListInfoEntry.ITEM_PURCHASED, false);
+        values.put(ListInfoContract.ListInfoEntry.ITEM_SUB_CATEGORY, mItemSubCategoryEditText.getText().toString());
+
+        long rowId = mDatabase.insert(ListInfoContract.ListInfoEntry.TABLE_NAME, null, values);
+
+        if (rowId == -1)
+            return false;
+
+        return true;
+    }
+
     private void validateFields() {
 
+        String arg1 = null;
+        if(mItemNameEditText.getText().length() == 0) {
+            arg1 = getString(R.string.item_name);
+        } else if (mQuantityEditText.getText().length() == 0) {
+            arg1 = getString(R.string.quantity);
+        }
+        Toast.makeText(getContext(), getString(R.string.item_name_attention_message_dialog_fragment, arg1), Toast.LENGTH_SHORT).show();
 
     }
 }
