@@ -12,6 +12,15 @@ public class LocalItem {
     Location mLocation;
     String mImage;
     String mUnit;
+    boolean mItemPurchased;
+
+    public boolean isItemPurchased() {
+        return mItemPurchased;
+    }
+
+    public void setItemPurchased(boolean itemPurchased) {
+        mItemPurchased = itemPurchased;
+    }
 
     public String getImage() {
         return mImage;

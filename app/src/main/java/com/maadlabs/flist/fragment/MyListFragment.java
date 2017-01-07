@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.maadlabs.flist.R;
+import com.maadlabs.flist.model.LocalItem;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyListFragment extends Fragment {
+public class MyListFragment extends Fragment implements AddListItemDialogFragment.ListItemIntf {
+
 
 
     public MyListFragment() {
@@ -29,5 +31,10 @@ public class MyListFragment extends Fragment {
 
     public static MyListFragment getInstance() {
         return new MyListFragment();
+    }
+
+    @Override
+    public void onItemAdded(LocalItem item) {
+
     }
 }

@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.maadlabs.flist.R;
 import com.maadlabs.flist.db.ListInfoContract;
 import com.maadlabs.flist.db.MyHelper;
+import com.maadlabs.flist.model.Item;
+import com.maadlabs.flist.model.LocalItem;
 
 
 public class AddListItemDialogFragment extends DialogFragment implements View.OnClickListener{
@@ -89,7 +91,10 @@ public class AddListItemDialogFragment extends DialogFragment implements View.On
         switch (id) {
             case R.id.ok_button:
                 validateFields();
-                addListItem();
+                LocalItem newItem = addItemToDb();
+                if (newItem != null)
+                    passDataToFragment(newItem);
+                dismiss();
                 break;
 
             case R.id.cancel_button:
@@ -98,34 +103,42 @@ public class AddListItemDialogFragment extends DialogFragment implements View.On
         }
     }
 
-    private void addListItem() {
+    private void passDataToFragment(LocalItem newItem) {
 
-        addItemToDb();
-        addItemToList();
+        ListItemIntf listItemIntf = (ListItemIntf) getTargetFragment();
+
+        if (listItemIntf == null)
+            return;
+
+        listItemIntf.onItemAdded(newItem);
     }
 
-    private void addItemToList() {
+    private LocalItem addItemToDb() {
 
-    }
-
-    private boolean addItemToDb() {
+        LocalItem item = new LocalItem();
+        item.setName(mItemNameEditText.getText().toString());
+        item.setQuantity(Integer.parseInt(mQuantityEditText.getText().toString()));
+        item.setItemPurchased(false);
+        item.setType(mItemSubCategoryEditText.getText().toString());
 
         if (mDatabase == null) {
             mDatabase = mDatabaseHelper.getWritableDatabase();
         }
 
+        // TODO: sort out list name
+
         ContentValues values = new ContentValues();
-        values.put(ListInfoContract.ListInfoEntry.ITEM_NAME, mItemNameEditText.getText().toString());
-        values.put(ListInfoContract.ListInfoEntry.ITEM_QUANTITY, mQuantityEditText.getText().toString());
-        values.put(ListInfoContract.ListInfoEntry.ITEM_PURCHASED, false);
-        values.put(ListInfoContract.ListInfoEntry.ITEM_SUB_CATEGORY, mItemSubCategoryEditText.getText().toString());
+        values.put(ListInfoContract.ListInfoEntry.ITEM_NAME, item.getName());
+        values.put(ListInfoContract.ListInfoEntry.ITEM_QUANTITY, item.getQuantity());
+        values.put(ListInfoContract.ListInfoEntry.ITEM_PURCHASED, item.isItemPurchased());
+        values.put(ListInfoContract.ListInfoEntry.ITEM_SUB_CATEGORY, item.getType());
 
         long rowId = mDatabase.insert(ListInfoContract.ListInfoEntry.TABLE_NAME, null, values);
 
         if (rowId == -1)
-            return false;
+            return null;
 
-        return true;
+        return item;
     }
 
     private void validateFields() {
@@ -138,5 +151,10 @@ public class AddListItemDialogFragment extends DialogFragment implements View.On
         }
         Toast.makeText(getContext(), getString(R.string.item_name_attention_message_dialog_fragment, arg1), Toast.LENGTH_SHORT).show();
 
+    }
+
+
+    public interface ListItemIntf {
+        void onItemAdded(LocalItem item);
     }
 }
