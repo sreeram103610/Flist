@@ -14,4 +14,7 @@
     <dimen name="default_dialog_margin">24dp</dimen>
     <dimen name="add_list_item_dialog_width">300dp</dimen>
     <dimen name="add_list_item_dialog_height">500dp</dimen>
+    <dimen name="default_field_padding_top">24dp</dimen>
+    <dimen name="default_field_padding_bottom">24dp</dimen>
+    <dimen name="list_item_name_size">24sp</dimen>
 </resources>
