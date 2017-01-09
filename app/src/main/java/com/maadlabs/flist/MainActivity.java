@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.maadlabs.flist.fragment.AddListItemDialogFragment;
+import com.maadlabs.flist.fragment.FeedsFragment;
+import com.maadlabs.flist.fragment.MyListFragment;
 import com.maadlabs.flist.model.MyFragmentAdapter;
 
 public class MainActivity extends FragmentActivity {
@@ -17,6 +19,7 @@ public class MainActivity extends FragmentActivity {
     TabLayout mTabLayout;
     FloatingActionButton mActionButton;
     AddListItemDialogFragment mAddListItemDialogFragment;
+    MyListFragment mListItemsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,8 @@ public class MainActivity extends FragmentActivity {
         mActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mViewPager.getCurrentItem() == 0)
+                    mAddListItemDialogFragment.setTargetFragment(mListItemsFragment, 0);
                 mAddListItemDialogFragment.show(getSupportFragmentManager(), AddListItemDialogFragment.TAG);
             }
         });
@@ -70,6 +75,7 @@ public class MainActivity extends FragmentActivity {
     private void initData() {
         mMyFragmentAdapter = new MyFragmentAdapter(getSupportFragmentManager());
         mAddListItemDialogFragment = new AddListItemDialogFragment();
+        mListItemsFragment = (MyListFragment) getSupportFragmentManager().findFragmentByTag(MyListFragment.TAG);
     }
 
 }
